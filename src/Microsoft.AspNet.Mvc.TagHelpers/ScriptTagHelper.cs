@@ -17,14 +17,14 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
     public class ScriptTagHelper : TagHelper
     {
         private const string FallbackSrcAttributeName = "asp-fallback-src";
-        private const string FallbackTestMethodAttributeName = "asp-fallback-test";
+        private const string FallbackTestExpressionAttributeName = "asp-fallback-test";
         private const string SrcAttributeName = "src";
 
         // NOTE: All attributes are required for the LinkTagHelper to process.
         private static readonly string[] RequiredAttributes = new[]
         {
             FallbackSrcAttributeName,
-            FallbackTestMethodAttributeName,
+            FallbackTestExpressionAttributeName,
         };
 
         /// <summary>
@@ -37,8 +37,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
         /// <summary>
         /// The script method defined in the primary script to use for the fallback test.
         /// </summary>
-        [HtmlAttributeName(FallbackTestMethodAttributeName)]
-        public string FallbackTestMethod { get; set; }
+        [HtmlAttributeName(FallbackTestExpressionAttributeName)]
+        public string FallbackTestExpression { get; set; }
 
         // Protected to ensure subclasses are correctly activated. Internal for ease of use when testing.
         [Activate]
@@ -81,8 +81,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
             // Build the <script /> tag that checks the test method and if it fails, renders the extra script.
             content.Append("<script>(");
-            content.Append(FallbackTestMethod);
-            content.Append(" || document.write(\"<script");
+            content.Append(FallbackTestExpression);
+            content.Append("||document.write(\"<script");
 
             if (!output.Attributes.ContainsKey("src"))
             {
@@ -113,7 +113,6 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
         {
             // Append src attribute in the original place and replace the content the the fallback content
             // No need to encode the key because we know it is exactly src.
-
             content.Append(" ");
             content.Append(srcKey);
             content.Append("=\\\"");

@@ -1,3 +1,3 @@
 ﻿function bar() {
-    document.write("<br>boo is not available");
+    document.write("<br>foo is from fallback");
 }
