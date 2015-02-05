@@ -6,6 +6,17 @@
     Hello, you're in Development
 </environment>
 
+<script asp-fallback-src="~/Fallback.js" asp-fallback-test="window.boo">
+    // Uncomment to avoid the fallback script from loading.
+    //function boo() {
+    //    return 1;
+    //}
+
+    function bar() {
+        document.write("<br>boo is available");
+    }
+</script>
+<script>bar();</script>
 <h2>Index</h2>
 @if (Model != null && Model.Count() != 0)
 {
